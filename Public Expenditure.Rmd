@@ -1,0 +1,126 @@
+---
+title: "R Notebook"
+output: html_notebook
+--- 
+
+## Loading Dataset
+
+```{r}
+df = read.csv("C:/Users/RIDZZ ZOLDYCK/Desktop/SY SEM2/DS/educ_exp_ha.csv")
+```
+
+
+```{r}
+head(df,5)
+```
+
+```{r}
+colnames(df)
+
+```
+
+```{r}
+str(df)
+```
+
+## Removing insignificant columns 
+
+```{r taking required columns}
+data = df[ , c(2,3,4,5)]
+colnames(data)
+```
+```{r dplyr package}
+library(dplyr)
+```
+
+```{r renaming X as Country}
+data = rename(data, Country = X)  # dplyr
+colnames(data)
+```
+
+```{r}
+data
+```
+
+## Extracting Public Expenditure Data
+
+```{r}
+new_data = data[data['Series'] == "Public expenditure on education (% of GDP)" , ] 
+new_data
+```
+
+
+
+```{r}
+
+summary(new_data) #checking for NA values
+
+```
+
+
+
+
+
+```{r}
+
+unique(new_data$Country)
+
+```
+
+### Our data has 190+ countries
+### Since all these are categorical variables it isnt practical to include 190+ categorical variables
+### So we will be selecting 10 countries and do our processing and analysis on them
+
+
+```{r}
+# Countries chosen - India , United Kingdom , Canada , Russian Federation , Republic of Korea (South Korea) , United States of America , Israel ,  Japan , Spain , Germany
+
+coun = c( 'India' , 'United Kingdom' , 'Canada' , 'Russian Federation' , 'Republic of Korea' , 'United States of America' , 'Israel' ,  'Japan' , 'Spain' , 'Germany')
+
+ex_data_ = NULL
+flag = 0
+
+for (i in coun)
+{
+    if(flag == 0){
+      
+      ex_data_ = new_data[new_data['Country'] == i ,]
+      flag = flag + 1 
+    }else{
+      
+      ex_data_ = rbind(ex_data_ , new_data[new_data['Country'] == i ,] )
+    }
+    
+}
+
+
+# ex_data = new_data[new_data['Country'] == "India" ,]
+# ex_data
+
+unique(ex_data_$Country)
+
+```
+
+```{r}
+# contains data of the selected 10 countries
+ex_data_
+
+
+```
+
+
+```{r}
+# Now that we have the data of the required countries we will remove the Series column as all of them have the same value [Public expenditure on education (% of GDP)]
+
+# Also we will rename the Value for better understanding
+
+ex_data_ = subset(ex_data_, select = -c(3) )
+
+```
+
+
+```{r}
+ex_data_
+```
+
+
