@@ -63,9 +63,58 @@ summary(new_data) #checking for NA values
 
 ```{r}
 
-unique(new_data$Country)
+#unique(new_data$Country)
+# 
+# country = unique(new_data$Country)
+# tmp = c()
+# k = 1
+# #class(i)
+# 
+# 
+# for (i in country){
+#   
+#   tmp1 = length(new_data[new_data$Country == i , 1 ])
+#   
+#   tmp[k] = tmp1 
+#   
+#   k = k + 1
+#   
+# }
+# 
+# #tmp
+# 
+# coun_data = cbind(country , tmp)
+# #coun_data
+# 
+# # dataframe containing countries and their number of instances is created
+# class(coun_data)
+# coun_data = as.data.frame(coun_data)
+# 
+# 
+# arrange(coun_data , desc(tmp))
+# 
 
 ```
+
+
+
+
+```{r}
+
+# sel_coun = c("Burundi" , "El Salvador" , "Estonia" , "Jamaica" , "Madagascar" , "Mongolia" )
+#   
+# for (i in sel_coun){
+#   
+#   yr = new_data$Year[new_data$Country == i]
+#   print(i)
+#   print(yr)
+# }
+
+```
+
+
+
+
 
 ### Our data has 190+ countries
 ### Since all these are categorical variables it isnt practical to include 190+ categorical variables
@@ -122,5 +171,41 @@ ex_data_ = subset(ex_data_, select = -c(3) )
 ```{r}
 ex_data_
 ```
+
+## Data Visualization 
+
+
+```{r}
+
+# Since all countries have different values in Year , we cannot have a common x axis for a line plot
+# Hence we ll make a different like plot for each country 
+
+library(ggplot2)
+
+#scale_colour_manual()
+
+
+
+# data_india = ex_data_[ex_data_$Country == "India" , ]
+# #data_india
+# 
+# 
+# india_line_plot = ggplot(data_india , aes(Year , Value , group = 1) ) + geom_point(color = "red" , size = 5) + geom_line(linetype = "dashed" , color = "blue" , size = 1.5)
+# 
+# 
+# india_line_plot
+
+
+
+p = ggplot(ex_data_ , aes(x = Year , y = Value) ) + geom_point(aes( color = factor(Country)  ) , size = 2.5 , show.legend = TRUE) + scale_colour_manual("Country" , values = c("blue4", "red3", "gold3" , "darkorchid4" , "darkorange3" , "chartreuse3" , "steelblue1" , "indianred1" , "grey3" , "aquamarine")) + labs(x = "Year" , y = "% of GDP in Education" , title = "Country wise GDP Expenditure on Education")
+p = p + coord_cartesian(xlim = c(2000, 2017), ylim = c(3, 6)) +  theme(plot.title = element_text(hjust = 0.5) , panel.background = element_rect(fill = "khaki3"))
+
+p
+
+
+# canada , india , russian federation , united kingdom , canada , spain , israel 
+
+```
+
 
 
