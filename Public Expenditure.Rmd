@@ -208,4 +208,263 @@ p
 ```
 
 
+# We will now plot individual countries to have a better country wise insight 
+
+
+```{r}
+
+# India 
+
+
+data_india = ex_data_[ex_data_$Country == "India" , ]
+#data_india
+
+
+india_line_plot = ggplot(data_india , aes(Year , Value ) ) + geom_point(color = "blue" , size = 3) + geom_line(linetype = "dashed" , color = "red" , size = 1)
+
+india_line_plot = india_line_plot + labs(x = "Year" , y = "% of GDP in Education" , title = "India's GDP Expenditure on Education") + theme(plot.title = element_text(hjust = 0.5) , panel.background = element_rect(fill = "lightskyblue1"))
+
+
+india_line_plot
+
+
+
+
+```
+
+
+```{r}
+
+# Russian Federation 
+
+data_russia = ex_data_[ex_data_$Country == "Russian Federation" , ]
+data_russia
+
+
+russia_line_plot = ggplot(data_russia , aes(Year , Value ) ) + geom_point(color = "darkred" , size = 3) + geom_line( linetype = "dotted" , color = "darkslateblue" , size = 1)
+
+russia_line_plot = russia_line_plot + labs(x = "Year" , y = "% of GDP in Education" , title = "Russia's GDP Expenditure on Education") + theme(plot.title = element_text(hjust = 0.5) , panel.background = element_rect(fill = "lightskyblue1"))
+
+russia_line_plot
+```
+
+
+```{r}
+
+# Israel 
+
+data_israel = ex_data_[ex_data_$Country == "Israel" , ]
+data_israel
+
+temp_is = data_israel$Year
+
+data_israel$Year = as.factor(data_israel$Year)  # prevents spacing between different bars as it treats them like numbers
+
+
+israel_bar_plot = ggplot(data_israel , aes(Year ,Value) ) + geom_bar(stat = "identity" , fill = c(
+        "deepskyblue4",
+        "deeppink3",
+        "darkgoldenrod2",
+        "darkorchid" ) , width = 0.5) + coord_flip() + geom_text(aes( label = Value ) , hjust = 1.05) + labs(x = "Year" , y = "% of GDP in Education" , title = "Israel's GDP Expenditure on Education") + theme(plot.title = element_text(hjust = 0.5) , panel.background = element_rect(fill = "lightskyblue1"))
+    
+
+        
+          
+        
+        
+        
+        
+        
+        
+israel_bar_plot
+
+data_israel$Year = temp_is
+```
+
+
+```{r}
+
+# United Kingdom
+
+data_uk = ex_data_[ex_data_$Country == "United Kingdom" , ]
+data_uk
+
+temp_uk = data_uk$Year
+
+data_uk$Year = as.factor(data_uk$Year)
+
+uk_bar_plot = ggplot(data_uk , aes(Year ,Value) ) + geom_bar(stat = "identity" , fill = c(
+        "slateblue2",
+        "darksalmon",
+        "lightgoldenrod3",
+        "palegreen3" ) , width = 0.5) +  geom_text(aes( label = Value ) , vjust = -0.5) + labs(x = "Year" , y = "% of GDP in Education" , title = "United Kingdom's GDP Expenditure on Education") + theme(plot.title = element_text(hjust = 0.5) , panel.background = element_rect(fill = "lightskyblue"))
+
+uk_bar_plot
+
+data_uk$Year = temp_uk
+
+```
+
+
+```{r}
+
+data_canada = ex_data_[ex_data_$Country == "Canada" , ]
+data_canada
+
+```
+
+
+
+
+## Plotting per year GDP Expenditure on Education increase of the countries 
+
+## Formula used - 
+    
+                    ( max_year_Value - min_year_Value ) / ( max_Year - min_Year )                 
+
+  
+```{r}
+
+# India
+max_year_india = max(data_india$Year)
+#max_year_india
+min_year_india = min(data_india$Year)
+#min_year_india
+max_gdp_india = data_india$Value[data_india$Year == max_year_india]
+#max_gdp_india
+min_gdp_india = data_india$Value[data_india$Year == min_year_india]
+#min_gdp_india
+
+gdp_exp_inc_india = ( max_gdp_india - min_gdp_india ) / ( max_year_india - min_year_india )
+gdp_exp_inc_india
+
+# Russia 
+max_year_russia = max(data_russia$Year)
+#max_year_russia
+min_year_russia = min(data_russia$Year)
+#min_year_russia
+max_gdp_russia = data_russia$Value[data_russia$Year == max_year_russia]
+#max_gdp_russia
+min_gdp_russia = data_russia$Value[data_russia$Year == min_year_russia]
+#min_gdp_russia
+gdp_exp_inc_russia = ( max_gdp_russia - min_gdp_russia ) / ( max_year_russia - min_year_russia )
+gdp_exp_inc_russia
+
+
+# Israel
+max_year_israel = max(data_israel$Year)
+#max_year_israel
+min_year_israel = min(data_israel$Year)
+#min_year_israel
+max_gdp_israel = data_israel$Value[data_israel$Year == max_year_israel]
+#max_gdp_israel
+min_gdp_israel = data_israel$Value[data_israel$Year == min_year_israel]
+#min_gdp_israel
+
+gdp_exp_inc_israel = ( max_gdp_israel - min_gdp_israel ) / ( max_year_israel - min_year_israel )
+gdp_exp_inc_israel
+
+
+# United Kingdom
+max_year_uk = max(data_uk$Year)
+min_year_uk = min(data_uk$Year)
+max_gdp_uk = data_uk$Value[data_uk$Year == max_year_uk]
+min_gdp_uk = data_uk$Value[data_uk$Year == min_year_uk]
+
+gdp_exp_inc_uk = ( max_gdp_uk - min_gdp_uk ) / ( max_year_uk - min_year_uk )
+gdp_exp_inc_uk
+
+
+# Canada 
+max_year_canada = max(data_canada$Year)
+min_year_canada = min(data_canada$Year)
+max_gdp_canada = data_canada$Value[data_canada$Year == max_year_canada]
+min_gdp_canada = data_canada$Value[data_canada$Year == min_year_canada]
+
+gdp_exp_inc_canada = ( max_gdp_canada - min_gdp_canada ) / ( max_year_canada - min_year_canada )
+gdp_exp_inc_canada
+
+
+
+```
+
+```{r}
+
+country = c("India" , "Russia" , "Israel" , "UK" , "Canada")
+educ_exp_inc = c(gdp_exp_inc_india , gdp_exp_inc_russia , gdp_exp_inc_israel , gdp_exp_inc_uk , gdp_exp_inc_canada)
+
+plot_data = cbind(country , educ_exp_inc)
+
+
+plot_data = as.data.frame(plot_data)
+
+
+plot_data$educ_exp_inc = as.numeric(plot_data$educ_exp_inc)
+plot_data
+```
+
+
+```{r}
+
+
+colour = c("deepskyblue4",
+        "deeppink3",
+        "darkgoldenrod2",
+        "darkorchid" ,
+        "chartreuse3")
+
+exp_inc_plot = ggplot(plot_data , aes(country , educ_exp_inc) ) + geom_point(size = 4 , color = colour) + geom_segment( aes(x = country , xend = country , y = 0 , yend = educ_exp_inc)  , size = 0.75 , color = colour) 
+
+exp_inc_plot = exp_inc_plot + coord_flip() + labs(x = "Country" , y = "% of GDP" , title = "Increase in Education Expenditure Per Year") + theme(plot.title = element_text(hjust = 0.5) , panel.background = element_rect(fill = "lightskyblue1"))
+
+exp_inc_plot
+
+
+```
+
+
+```{r}
+
+reg_data = ex_data_
+
+# from the first plot we know that Republic of Korea , Japan and United States of Amaerica have only 1 row each. Hence we will be removing them 
+
+
+reg_data = reg_data[  reg_data$Country != 'Republic of Korea'  ,  ]
+reg_data = reg_data[  reg_data$Country != 'United States of America'  ,  ]
+reg_data = reg_data[  reg_data$Country != 'Japan'  ,  ]
+
+(reg_data$Country)
+
+
+
+
+
+```
+
+
+```{r}
+
+# Label Encoding 
+library(superml)
+
+lbl = LabelEncoder$new()
+reg_data$Country = lbl$fit_transform(reg_data$Country)
+
+
+
+
+```
+
+```{r}
+reg_data$Country
+#class(reg_data$Country)
+
+```
+
+
+```{r}
+mlr_mdl = lm(Value~Country+Year , reg_data)
+summary(mlr_mdl)
+```
 
